@@ -1,6 +1,7 @@
 #Gradient Descent note
 ##matrix need %*%
-
+## TPredict: cauculate the theta * x to get result
+#######################################
 lmod<-lm(dist~speed,data = cars)
 lmod
 plot(dist~speed,data = cars)
