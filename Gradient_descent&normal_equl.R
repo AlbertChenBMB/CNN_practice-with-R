@@ -49,6 +49,7 @@ stheta
 convert_theta<-stheta[c(2:nrow(stheta)),]/t(t(apply(x,2,sd)))
 cthetazero<-stheta[1,1]-sum(stheta[c(2:nrow(stheta)),])/t(t(apply(x,2,sd)))*t(t(apply(x,2,mean)))
 convert_theta<- matrix(c(cthetazero,convert_theta))
+
 ##################
 # normal equation
 #used generalized inverse of a matrix (MASS::ginv)
@@ -58,8 +59,30 @@ normal_equ<-function(x,y){
         ntheta<-ginv(t(x)%*%x) %*% t(x) %*% y
         return(ntheta)
 }
-#### example
+
+###############################################
+# normal equation example
 x<-as.matrix(cars$speed)
 y<-as.matrix(cars$dist)
 ntheta<-normal_equ(x,y)
 ntheta
+############
+#multiple example
+x<-as.matrix(iris[,2:4])
+y<-as.matrix(iris[,1])
+########
+#Lmodel
+lmod <- lm(Sepal.Length ~ Sepal.Width + Petal.Length + Petal.Width, data = iris)
+lmod
+lans<-predict(lmod,newdata = iris)
+l_error<-sqrt(mean(iris$Sepal.Length-lans)^2)
+l_error
+###################
+#GRd
+x<-as.matrix(iris[,2:4])
+y<-as.matrix(iris[,1])
+theta<-GardD(x,y,alpha = 0.006)
+theta
+ans<-TPredict(theta = theta,x = x)
+error<-sqrt(mean((y - ans)^2))
+error
